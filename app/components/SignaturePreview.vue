@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import type { Signature } from '~~/types'
+import type { SignatureFormData } from '~~/types'
 
-const props = defineProps<Signature & { theme?: string }>()
-const { data, options, theme = 'dark' } = props
+defineProps<{ data: SignatureFormData }>()
+
+const disclaimer = `CONFIDENTIALITY NOTICE: This email and any files transmitted with it are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and permanently delete this message. Al-Naser Law does not accept liability for any damage caused by any virus transmitted through this email.`
 
 const toast = useToast()
 const signatureContainer = ref<HTMLElement>()
 
-const { copy, copied } = useClipboard({ 
-  source: () => signatureContainer.value!.innerHTML, 
-  copiedDuring: 1000 
+const { copy, copied } = useClipboard({
+  source: () => signatureContainer.value!.innerHTML,
+  copiedDuring: 1500,
 })
 
 function copyToClipboard() {
@@ -19,15 +20,15 @@ function copyToClipboard() {
       title: 'Signature copied to clipboard!',
       description: 'You can now paste it in your email client.',
       icon: 'i-heroicons-clipboard-document-check',
-      color: 'green',
-      timeout: 2000,
+      color: 'success',
+      duration: 2500,
     })
-  } catch (error) {
+  } catch {
     toast.add({
       title: 'Failed to copy',
       icon: 'i-heroicons-exclamation-circle',
-      color: 'red',
-      timeout: 2000,
+      color: 'error',
+      duration: 2500,
     })
   }
 }
@@ -37,101 +38,103 @@ function copyToClipboard() {
   <div class="w-full">
     <div ref="signatureContainer" class="py-2">
       <ClientOnly>
-        <table :style="options.color.transparent ? {} : { backgroundColor: `${options.color.background}` }" style="width: 100%;">
+        <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif;">
           <tbody>
+            <!-- Main row -->
             <tr>
-              <td 
-                style="padding: 6px;" 
-                :style="[
-                  { width: `${options.image.size + options.gap.image}px` },
-                  options.image.align === 'top' ? { verticalAlign: 'top' } : {},
-                  options.image.align === 'center' ? { verticalAlign: 'middle' } : {},
-                  options.image.align === 'bottom' ? { verticalAlign: 'bottom' } : {},
-                ]"
-              >
-                <img
-                  :src="data.image"
-                  alt="Profile Picture"
-                  :style="[
-                    options.image.form === 'rectangle' ? { width: `${options.image.size}px` } : {},
-                    options.image.form === 'square' ? { width: `${options.image.size}px`, height: `${options.image.size}px` } : {},
-                    options.image.form === 'circle' ? { width: `${options.image.size}px`, height: `${options.image.size}px`, borderRadius: `${options.image.size}px` } : {},
-                    { objectFit: 'cover' },
-                    options.image.border ? {
-                      border: `${options.image.borderWidth}px ${options.image.borderStyle} ${options.image.borderColor}`,
-                    } : {},
-                    options.image.shadow ? {
-                      boxShadow: `0 ${options.image.shadowIntensity * 2}px ${options.image.shadowIntensity * 4}px -${options.image.shadowIntensity}px rgb(0 0 0 / ${options.image.shadowIntensity * 0.05})`
-                    } : {},
-                  ]"
-                >
+              <!-- Firm logo -->
+              <td style="padding: 6px 8px 6px 0; vertical-align: middle;">
+                <a href="https://alnaser-law.com" target="_blank" style="display: block; line-height: 0; text-decoration: none;">
+                  <img
+                    src="https://r2.alnaser-law.com/icon-dark.png"
+                    alt="Al-Naser Law"
+                    width="56"
+                    height="56"
+                    style="display: block; width: 56px; height: 56px; object-fit: contain;"
+                  >
+                </a>
               </td>
-              <td
-                style="padding: 6px;"
-                :style="[
-                  { fontSize: `${options.size.subtitle}px` }
-                ]"
-                :class="[
-                  options.font.family === 'inter' ? 'font-inter' :
-                  options.font.family === 'sf' ? 'font-sf' :
-                  options.font.family === 'roboto' ? 'font-roboto' :
-                  'font-arial'
-                ]"
-              >
-                <table :style="{ fontSize: `${options.size.subtitle}px` }">
-                  <tr v-if="data.fullName">
-                    <td
-                      :style="[
-                        { 
-                          fontSize: `${options.size.title}px`,
-                          color: options.color.autoTitle ? '' : options.color.title,
-                          fontWeight: options.font.titleWeight
-                        }
-                      ]"
-                    >
-                      {{ data.fullName }}
-                    </td>
-                  </tr>
-                  <tr v-if="data.jobTitle" :style=" { color: `${options.color.subtitle}`}">
-                    <td>
-                      {{ data.jobTitle }}
-                    </td>
-                  </tr>
-                  <tr v-if="data.company" :style=" { color: `${options.color.subtitle}`}">
-                    <td :style="{ fontSize: `${options.size.subtitle}px`, color: `${options.color.subtitle}` }">
-                      {{ data.company }}
-                    </td>
-                  </tr>
-                  <tr v-if="data.email" :style=" { color: `${options.color.subtitle}`}">
-                    <td :style="{ fontSize: `${options.size.subtitle}px`, color: `${options.color.subtitle}` }">
-                      {{ data.email }}
-                    </td>
-                  </tr>
-                  <tr v-if="data.phone" :style=" { color: `${options.color.subtitle}`}">
-                    <td>
-                      {{ data.phone }}
-                    </td>
-                  </tr>
-                  <tr v-if="data.socials.length > 0">
-                    <td>
-                      <table>
-                        <tbody>
-                          <tr :style="{ fontSize: `${options.size.social}px` }">
-                            <td v-for="social in data.socials.filter((social) => social.url)" :key="social.title" :style="{ paddingRight: `${options.gap.social}px` }">
-                              <a :href="social.url" style="text-decoration: underline" :style="{ color: `${options.color.social}` }">{{ social.title }}</a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
+
+              <!-- Gold divider -->
+              <td style="padding: 0 8px; vertical-align: middle;">
+                <div style="width: 1px; height: 64px; background-color: #c8a96e;" />
+              </td>
+
+              <!-- Contact info -->
+              <td style="padding: 6px 0; vertical-align: middle;">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr v-if="data.fullName">
+                      <td style="padding: 0 0 2px 0; font-size: 15px; font-weight: 700; color: #1a2e4a; white-space: nowrap;">
+                        {{ data.fullName }}
+                      </td>
+                    </tr>
+                    <tr v-if="data.jobTitle">
+                      <td style="padding: 0 0 6px 0; font-size: 12px; color: #c8a96e; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;">
+                        {{ data.jobTitle }}
+                      </td>
+                    </tr>
+                    <tr v-if="data.linkedin || data.phone">
+                      <td style="padding: 0;">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td v-if="data.linkedin" style="padding: 0; white-space: nowrap;">
+                                <a
+                                  :href="data.linkedin"
+                                  target="_blank"
+                                  style="text-decoration: none; color: #0A66C2; font-size: 12px; font-weight: 600;"
+                                >
+                                  <img
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/20px-LinkedIn_logo_initials.png"
+                                    alt="LinkedIn"
+                                    width="13"
+                                    height="13"
+                                    style="display: inline-block; vertical-align: middle; margin-right: 4px;"
+                                  >
+                                  <span style="vertical-align: middle;">LinkedIn</span>
+                                </a>
+                              </td>
+                              <td v-if="data.linkedin && data.phone" style="padding: 0 8px; color: #c8a96e; font-size: 12px;">|</td>
+                              <td v-if="data.phone" style="padding: 0; white-space: nowrap; color: #555555; font-size: 12px;">
+                                {{ data.phone }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
+              </td>
+            </tr>
+
+            <!-- Footer row: Legal500 + disclaimer -->
+            <tr>
+              <td colspan="3" style="padding-top: 14px; border-top: 1px solid #e5e5e5;">
+                <a
+                  href="https://www.legal500.com/firms/247355-sama-al-nasser-law-firm/c-iraq/about"
+                  target="_blank"
+                  style="display: inline-block; line-height: 0; text-decoration: none; margin-bottom: 8px;"
+                >
+                  <img
+                    src="https://r2.alnaser-law.com/legal-500.png"
+                    alt="Legal 500"
+                    width="49"
+                    height="54"
+                    style="display: block; width: 49px; height: 54px; object-fit: contain;"
+                  >
+                </a>
+                <p style="margin: 0; font-size: 9px; line-height: 1.4; color: #aaaaaa; font-family: Arial, Helvetica, sans-serif;">
+                  {{ disclaimer }}
+                </p>
               </td>
             </tr>
           </tbody>
         </table>
+
         <template #fallback>
-          <div class="h-24 animate-pulse bg-neutral-700 rounded-md" />
+          <div class="h-24 animate-pulse bg-neutral-200 rounded-md" />
         </template>
       </ClientOnly>
     </div>
@@ -148,4 +151,3 @@ function copyToClipboard() {
     </div>
   </div>
 </template>
-

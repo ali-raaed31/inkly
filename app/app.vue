@@ -1,18 +1,15 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Inkly - Email Signature Generator',
-  description: 'The most simple open-source email signature generator',
-  author: 'Hugo Richard',
-  twitterCreator: '@HugoRCD__',
-  twitterTitle: 'Inkly - Email Signature Generator',
-  twitterDescription: 'The most simple open-source email signature generator',
-  twitterCard: 'summary_large_image',
-  twitterImage: 'https://inkly.hrcd.fr/og.png',
-  ogUrl: 'https://inkly.hrcd.fr',
-  ogImage: 'https://inkly.hrcd.fr/og.png',
-  ogSiteName: 'Inkly - Email Signature Generator',
-  ogTitle: 'Inkly - Email Signature Generator',
-  ogDescription: 'The most simple open-source email signature generator',
+  title: 'Al-Naser Law — Email Signature Generator',
+  description: 'Generate your branded Al-Naser Law email signature in seconds.',
+  author: 'Al-Naser Law',
+  twitterTitle: 'Al-Naser Law — Email Signature Generator',
+  twitterDescription: 'Generate your branded Al-Naser Law email signature in seconds.',
+  twitterCard: 'summary',
+  ogUrl: 'https://mailsig.alnaser-law.com',
+  ogSiteName: 'Al-Naser Law — Email Signature Generator',
+  ogTitle: 'Al-Naser Law — Email Signature Generator',
+  ogDescription: 'Generate your branded Al-Naser Law email signature in seconds.',
 })
 
 useHead({

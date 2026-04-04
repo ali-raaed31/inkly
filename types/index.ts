@@ -51,17 +51,10 @@ export interface SignatureOptions {
 }
 
 export interface SignatureFormData {
-  image: string
   fullName: string
   jobTitle: string
-  company: string
-  email: string
   phone: string
-  socials: Array<{
-    title: string
-    url: string
-    type: string
-  }>
+  linkedin: string
 }
 
 export interface Signature {
