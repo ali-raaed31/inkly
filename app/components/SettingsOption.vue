@@ -52,6 +52,16 @@ const uid = Math.random().toString(36).substring(2, 15)
               icon="i-lucide-phone"
             />
           </div>
+
+          <div>
+            <label :for="`email-${uid}`" class="block text-sm font-medium mb-1">Email</label>
+            <UInput
+              :id="`email-${uid}`"
+              v-model="data.email"
+              type="email"
+              icon="i-lucide-mail"
+            />
+          </div>
         </div>
       </template>
 

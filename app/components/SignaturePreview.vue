@@ -26,9 +26,10 @@ const linkedinUrl = computed(() => {
   return linkedin?.url.trim() || ''
 })
 
+const emailAddress = computed(() => data.value.email.trim())
 const isSmallViewport = computed(() => width.value < 640)
 const phoneHref = computed(() => `tel:${data.value.phone.replace(/\s+/g, '')}`)
-const emailHref = computed(() => `mailto:${data.value.email}`)
+const emailHref = computed(() => `mailto:${emailAddress.value}`)
 
 function markCopied() {
   copied.value = true
@@ -229,8 +230,10 @@ onBeforeUnmount(() => {
                       <tr v-if="!isSmallViewport">
                         <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px', paddingTop: '4px', paddingBottom: '1px' }">
                           <a :href="phoneHref" style="text-decoration: none;">{{ data.phone }}</a>
-                          <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
-                          <a :href="emailHref" style="text-decoration: none;">{{ data.email }}</a>
+                          <template v-if="emailAddress">
+                            <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
+                            <a :href="emailHref" style="text-decoration: none;">{{ emailAddress }}</a>
+                          </template>
                           <template v-if="linkedinUrl">
                             <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
                             <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">LinkedIn</a>
@@ -245,11 +248,13 @@ onBeforeUnmount(() => {
                           </td>
                         </tr>
 
-                        <tr>
+                        <tr v-if="emailAddress || linkedinUrl">
                           <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px' }">
-                            <a :href="emailHref" style="text-decoration: none;">{{ data.email }}</a>
+                            <template v-if="emailAddress">
+                              <a :href="emailHref" style="text-decoration: none;">{{ emailAddress }}</a>
+                            </template>
                             <template v-if="linkedinUrl">
-                              <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
+                              <span v-if="emailAddress" :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
                               <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">LinkedIn</a>
                             </template>
                           </td>
