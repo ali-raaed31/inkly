@@ -7,7 +7,9 @@ const LEGAL_500_BADGE_IMAGE_URL = 'https://r2.alnaser-law.com/legal-500.png'
 const LEGAL_500_BADGE_URL = 'https://www.legal500.com/firms/247355-sama-al-nasser-law-firm/c-iraq/about'
 const DISCLAIMER_TEXT = 'This email and any attachments are confidential and may be legally privileged. If you are not the intended recipient, please notify the sender immediately, delete this message, and do not disclose or copy its contents. The sender accepts no liability for any errors, omissions, or viruses transmitted via this communication.'
 const DIVIDER_COLOR = '#d4d4d8'
-const COMPANY_NAME_COLOR = '#a07a2f'
+const NAME_COLOR = '#137399'
+const COMPANY_NAME_COLOR = '#af8c66'
+const DISCLAIMER_COLOR = '#8b949e'
 
 const props = defineProps<Signature & { theme?: string }>()
 const { data, options } = toRefs(props)
@@ -16,6 +18,7 @@ const toast = useToast()
 const signatureContainer = ref<HTMLElement>()
 const copied = ref(false)
 let copiedTimeout: ReturnType<typeof setTimeout> | undefined
+const { width } = useWindowSize()
 
 const linkedinUrl = computed(() => {
   const linkedin = data.value.socials.find((social) => social.type === 'linkedin')
@@ -23,6 +26,7 @@ const linkedinUrl = computed(() => {
   return linkedin?.url.trim() || ''
 })
 
+const isSmallViewport = computed(() => width.value < 640)
 const phoneHref = computed(() => `tel:${data.value.phone.replace(/\s+/g, '')}`)
 const emailHref = computed(() => `mailto:${data.value.email}`)
 
@@ -193,7 +197,7 @@ onBeforeUnmount(() => {
                           :style="[
                             {
                               fontSize: `${options.size.title}px`,
-                              color: options.color.autoTitle ? '' : options.color.title,
+                              color: NAME_COLOR,
                               fontWeight: options.font.titleWeight,
                               lineHeight: '22px',
                               paddingBottom: '2px',
@@ -222,17 +226,35 @@ onBeforeUnmount(() => {
                         </td>
                       </tr>
 
-                      <tr>
-                        <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px', paddingTop: '4px' }">
+                      <tr v-if="!isSmallViewport">
+                        <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px', paddingTop: '4px', paddingBottom: '1px' }">
                           <a :href="phoneHref" style="text-decoration: none;">{{ data.phone }}</a>
-                          <span :style="{ color: DIVIDER_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
+                          <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
                           <a :href="emailHref" style="text-decoration: none;">{{ data.email }}</a>
                           <template v-if="linkedinUrl">
-                            <span :style="{ color: DIVIDER_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
+                            <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
                             <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">LinkedIn</a>
                           </template>
                         </td>
                       </tr>
+
+                      <template v-else>
+                        <tr>
+                          <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px', paddingTop: '4px', paddingBottom: '1px' }">
+                            <a :href="phoneHref" style="text-decoration: none;">{{ data.phone }}</a>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px' }">
+                            <a :href="emailHref" style="text-decoration: none;">{{ data.email }}</a>
+                            <template v-if="linkedinUrl">
+                              <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
+                              <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">LinkedIn</a>
+                            </template>
+                          </td>
+                        </tr>
+                      </template>
                     </tbody>
                   </table>
                 </td>
@@ -260,7 +282,7 @@ onBeforeUnmount(() => {
                 </td>
               </tr>
               <tr>
-                <td :style="{ fontFamily: 'Arial, sans-serif', fontSize: '11px', lineHeight: '16px', paddingTop: '10px' }">
+                <td :style="{ fontFamily: 'Arial, sans-serif', fontSize: '11px', lineHeight: '16px', paddingTop: '10px', color: DISCLAIMER_COLOR }">
                   {{ DISCLAIMER_TEXT }}
                 </td>
               </tr>

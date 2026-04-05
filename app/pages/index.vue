@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SignatureFormData, SignatureOptions } from '~~/types'
 
-const COMPANY_ICON_URL = 'https://r2.alnaser-law.com/icon-dark.png'
+const COMPANY_ICON_URL = 'https://r2.alnaser-law.com/icon-global.png'
 const COMPANY_EMAIL = 'info@alnaser-law.com'
 const COMPANY_NAME = 'Sama Al Naser Law Firm'
 

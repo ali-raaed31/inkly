@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const COMPANY_ICON_URL = 'https://r2.alnaser-law.com/icon-dark.png'
+const BRAND_BLUE = '#137399'
+const COMPANY_ICON_URL = 'https://r2.alnaser-law.com/icon-global.png'
 const COMPANY_NAME = 'Sama Al Naser Law Firm'
 const COMPANY_URL = 'https://alnaser-law.com'
 
@@ -24,14 +25,14 @@ onMounted(() => {
       >
       <div class="flex flex-col">
         <span class="text-sm font-semibold text-neutral-900 dark:text-white">{{ COMPANY_NAME }}</span>
-        <span class="text-xs text-neutral-500 dark:text-neutral-400">Email Signature Generator</span>
+        <span class="text-xs" :style="{ color: BRAND_BLUE }">Email Signature Generator</span>
       </div>
     </NuxtLink>
 
     <NuxtLink :to="COMPANY_URL" target="_blank">
       <UButton
-        color="neutral"
-        variant="ghost"
+        color="primary"
+        variant="soft"
         icon="i-lucide-external-link"
         size="xs"
         label="Website"

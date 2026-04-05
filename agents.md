@@ -22,8 +22,7 @@ the company address
 
 links for images on r2 storage:
 https://r2.alnaser-law.com/legal-500.png
-https://r2.alnaser-law.com/icon-light.png
-https://r2.alnaser-law.com/icon-dark.png
+https://r2.alnaser-law.com/icon-global.png
 
 link for the legal500 badge image:
 https://www.legal500.com/firms/247355-sama-al-nasser-law-firm/c-iraq/about
