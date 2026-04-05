@@ -57,15 +57,10 @@ export interface SignatureFormData {
   company: string
   email: string
   phone: string
-  socials: Array<{
-    title: string
-    url: string
-    type: string
-  }>
+  socials: Social[]
 }
 
 export interface Signature {
   data: SignatureFormData
   options: SignatureOptions
 }
-

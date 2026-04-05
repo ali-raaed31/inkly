@@ -1,30 +1,34 @@
 <script setup lang="ts">
 import type { SignatureFormData, SignatureOptions } from '~~/types'
 
+const COMPANY_ICON_URL = 'https://r2.alnaser-law.com/icon-dark.png'
+const COMPANY_EMAIL = 'info@alnaser-law.com'
+const COMPANY_NAME = 'Sama Al Naser Law Firm'
+
 const options = ref<SignatureOptions>({
   gap: {
     title: 10,
     subtitle: 10,
-    social: 10,
-    image: 10,
+    social: 8,
+    image: 18,
   },
   size: {
-    title: 16,
-    subtitle: 14,
-    social: 14,
+    title: 18,
+    subtitle: 13,
+    social: 13,
   },
   color: {
     title: '#000000',
     autoTitle: true,
-    subtitle: '#848484',
-    social: '#848484',
+    subtitle: '#4b5563',
+    social: '#4b5563',
     background: '#ffffff',
     transparent: true,
   },
   image: {
     align: 'center',
-    form: 'circle',
-    size: 90,
+    form: 'square',
+    size: 72,
     border: false,
     borderStyle: 'solid',
     borderColor: '#000000',
@@ -34,48 +38,32 @@ const options = ref<SignatureOptions>({
   },
   font: {
     family: 'inter',
-    titleWeight: '600'
+    titleWeight: '700'
   }
 })
 
 const data = ref<SignatureFormData>({
-  image: 'https://avatars.githubusercontent.com/u/71938701?v=4',
-  fullName: 'Hugo Richard',
-  jobTitle: 'Software Engineer at Vercel',
-  company: '',
-  email: '',
-  phone: '(+33) 6 00 00 00 00',
+  image: COMPANY_ICON_URL,
+  fullName: 'Your Name',
+  jobTitle: 'Your Job Title',
+  company: COMPANY_NAME,
+  email: COMPANY_EMAIL,
+  phone: '+964 000 000 0000',
   socials: [
     {
-      title: 'Portfolio',
-      url: 'https://hrcd.fr',
-      type: 'portfolio',
-    },
-    {
-      title: 'Twitter',
-      url: 'https://dub.sh/oQ44pBH',
-      type: 'twitter',
-    },
-    {
-      title: 'Instagram',
-      url: 'https://www.instagram.com/hugo.rcd_/',
-      type: 'instagram',
-    },
-    {
-      title: 'GitHub',
-      url: 'https://git.new/hugorcd',
-      type: 'github',
+      title: 'LinkedIn',
+      url: '',
+      type: 'linkedin',
     },
   ],
 })
 
 const theme = ref('dark')
 
-const emailSubject = 'Professionnal Email Signature'
+const emailSubject = 'Email Signature Preview'
 const emailContent = ref(`Hello,
 
-I'm pleased to share with you my new email signature created with Inkly.
-Feel free to reach out if you have any questions!
+Please find my contact details below.
 
 Best regards,`)
 
