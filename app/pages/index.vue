@@ -60,7 +60,7 @@ const data = ref<SignatureFormData>({
 
 const theme = ref('dark')
 
-const emailSubject = 'Email Signature Preview'
+const emailSubject = 'Sama Al Naser Law Firm Signature'
 const emailContent = ref(`Hello,
 
 Please find my contact details below.

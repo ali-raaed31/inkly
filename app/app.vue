@@ -1,18 +1,20 @@
 <script setup lang="ts">
+const pageTitle = 'Sama Al Naser Law Firm Signature Generator'
+const pageDescription = 'Create and copy your official Sama Al Naser Law Firm email signature.'
+
 useSeoMeta({
-  title: 'Inkly - Email Signature Generator',
-  description: 'The most simple open-source email signature generator',
-  author: 'Hugo Richard',
-  twitterCreator: '@HugoRCD__',
-  twitterTitle: 'Inkly - Email Signature Generator',
-  twitterDescription: 'The most simple open-source email signature generator',
+  title: pageTitle,
+  description: pageDescription,
+  author: 'Sama Al Naser Law Firm',
+  twitterTitle: pageTitle,
+  twitterDescription: pageDescription,
   twitterCard: 'summary_large_image',
-  twitterImage: 'https://inkly.hrcd.fr/og.png',
-  ogUrl: 'https://inkly.hrcd.fr',
-  ogImage: 'https://inkly.hrcd.fr/og.png',
-  ogSiteName: 'Inkly - Email Signature Generator',
-  ogTitle: 'Inkly - Email Signature Generator',
-  ogDescription: 'The most simple open-source email signature generator',
+  twitterImage: 'https://r2.alnaser-law.com/icon-dark.png',
+  ogUrl: 'https://mailsig.alnaser-law.com',
+  ogImage: 'https://r2.alnaser-law.com/icon-dark.png',
+  ogSiteName: pageTitle,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
 })
 
 useHead({
