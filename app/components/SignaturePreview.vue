@@ -5,11 +5,14 @@ const COMPANY_URL = 'https://alnaser-law.com'
 const COMPANY_ADDRESS = 'Al Mi\'dan Street, Manawi Basha, Basra.'
 const LEGAL_500_BADGE_IMAGE_URL = 'https://r2.alnaser-law.com/legal-500.png'
 const LEGAL_500_BADGE_URL = 'https://www.legal500.com/firms/247355-sama-al-nasser-law-firm/c-iraq/about'
+const LINKEDIN_IMAGE_URL = 'https://r2.alnaser-law.com/linkedin.svg'
 const DISCLAIMER_TEXT = 'This email and any attachments are confidential and may be legally privileged. If you are not the intended recipient, please notify the sender immediately, delete this message, and do not disclose or copy its contents. The sender accepts no liability for any errors, omissions, or viruses transmitted via this communication.'
 const DIVIDER_COLOR = '#d4d4d8'
 const NAME_COLOR = '#137399'
 const COMPANY_NAME_COLOR = '#af8c66'
+const CONTACT_LINK_COLOR = '#767676'
 const DISCLAIMER_COLOR = '#8b949e'
+const LINKEDIN_COLOR = '#0077B7'
 
 const props = defineProps<Signature & { theme?: string }>()
 const { data, options } = toRefs(props)
@@ -27,8 +30,9 @@ const linkedinUrl = computed(() => {
 })
 
 const emailAddress = computed(() => data.value.email.trim())
+const phoneNumber = computed(() => data.value.phone.trim())
 const isSmallViewport = computed(() => width.value < 640)
-const phoneHref = computed(() => `tel:${data.value.phone.replace(/\s+/g, '')}`)
+const phoneHref = computed(() => `tel:${phoneNumber.value.replace(/\s+/g, '')}`)
 const emailHref = computed(() => `mailto:${emailAddress.value}`)
 
 function markCopied() {
@@ -229,33 +233,67 @@ onBeforeUnmount(() => {
 
                       <tr v-if="!isSmallViewport">
                         <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px', paddingTop: '4px', paddingBottom: '1px' }">
-                          <a :href="phoneHref" style="text-decoration: none;">{{ data.phone }}</a>
-                          <template v-if="emailAddress">
-                            <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
-                            <a :href="emailHref" style="text-decoration: none;">{{ emailAddress }}</a>
-                          </template>
                           <template v-if="linkedinUrl">
-                            <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
-                            <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">LinkedIn</a>
+                            <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block; vertical-align: middle;">
+                              <img
+                                :src="LINKEDIN_IMAGE_URL"
+                                alt="LinkedIn"
+                                width="14"
+                                height="14"
+                                style="display: block; width: 14px; height: 14px;"
+                              >
+                            </a>
+                            <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" :style="{ textDecoration: 'none', display: 'inline-block', verticalAlign: 'middle', lineHeight: '20px', color: LINKEDIN_COLOR, marginLeft: '4px', fontWeight: '600' }">LinkedIn</a>
+                            <span v-if="phoneNumber || emailAddress" :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '20px', verticalAlign: 'middle', display: 'inline-block' }">&nbsp;&bull;&nbsp;</span>
+                          </template>
+                          <template v-if="phoneNumber">
+                            <a :href="phoneHref" :style="`text-decoration: none; display: inline-block; vertical-align: middle; line-height: 20px; color: ${CONTACT_LINK_COLOR} !important;`">{{ phoneNumber }}</a>
+                          </template>
+                          <template v-if="phoneNumber && emailAddress">
+                            <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '20px', verticalAlign: 'middle', display: 'inline-block' }">&nbsp;&bull;&nbsp;</span>
+                          </template>
+                          <template v-if="emailAddress">
+                            <a :href="emailHref" :style="`text-decoration: none; display: inline-block; vertical-align: middle; line-height: 20px; color: ${CONTACT_LINK_COLOR} !important;`">{{ emailAddress }}</a>
                           </template>
                         </td>
                       </tr>
 
                       <template v-else>
-                        <tr>
+                        <tr v-if="linkedinUrl || phoneNumber">
                           <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px', paddingTop: '4px', paddingBottom: '1px' }">
-                            <a :href="phoneHref" style="text-decoration: none;">{{ data.phone }}</a>
+                            <template v-if="linkedinUrl">
+                              <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block; vertical-align: middle;">
+                                <img
+                                  :src="LINKEDIN_IMAGE_URL"
+                                  alt="LinkedIn"
+                                  width="14"
+                                  height="14"
+                                  style="display: block; width: 14px; height: 14px;"
+                                >
+                              </a>
+                              <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" :style="{ textDecoration: 'none', display: 'inline-block', verticalAlign: 'middle', lineHeight: '20px', color: LINKEDIN_COLOR, marginLeft: '4px', fontWeight: '600' }">LinkedIn</a>
+                              <span v-if="phoneNumber" :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '20px', verticalAlign: 'middle', display: 'inline-block' }">&nbsp;&bull;&nbsp;</span>
+                            </template>
+                            <template v-if="phoneNumber">
+                              <a :href="phoneHref" :style="`text-decoration: none; display: inline-block; vertical-align: middle; line-height: 20px; color: ${CONTACT_LINK_COLOR} !important;`">{{ phoneNumber }}</a>
+                            </template>
                           </td>
                         </tr>
 
-                        <tr v-if="emailAddress || linkedinUrl">
+                        <tr v-if="emailAddress">
                           <td :style="{ fontSize: `${options.size.social}px`, lineHeight: '20px' }">
-                            <template v-if="emailAddress">
-                              <a :href="emailHref" style="text-decoration: none;">{{ emailAddress }}</a>
-                            </template>
+                            <a :href="emailHref" :style="`text-decoration: none; display: inline-block; vertical-align: middle; line-height: 20px; color: ${CONTACT_LINK_COLOR} !important;`">{{ emailAddress }}</a>
                             <template v-if="linkedinUrl">
-                              <span v-if="emailAddress" :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '18px', verticalAlign: 'middle' }">&nbsp;&bull;&nbsp;</span>
-                              <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">LinkedIn</a>
+                              <span :style="{ color: COMPANY_NAME_COLOR, fontSize: '18px', lineHeight: '20px', verticalAlign: 'middle', display: 'inline-block' }">&nbsp;&bull;&nbsp;</span>
+                              <a :href="linkedinUrl" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block; vertical-align: middle;">
+                                <img
+                                  :src="LINKEDIN_IMAGE_URL"
+                                  alt="LinkedIn"
+                                  width="14"
+                                  height="14"
+                                  style="display: block; width: 14px; height: 14px;"
+                                >
+                              </a>
                             </template>
                           </td>
                         </tr>

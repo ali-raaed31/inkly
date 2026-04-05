@@ -52,7 +52,7 @@ const data = ref<SignatureFormData>({
   socials: [
     {
       title: 'LinkedIn',
-      url: '',
+      url: 'https://www.linkedin.com/company/alnaser-law',
       type: 'linkedin',
     },
   ],
